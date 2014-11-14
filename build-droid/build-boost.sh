@@ -33,20 +33,24 @@ set -e
 #	exit
 #fi
 
+pwd
+echo "Building Boost @ $?"
 BOOST_SOURCE_NAME=boost_${BOOST_VERSION//./_}
 
+echo ${BOOST_SOURCE_NAME}.tar.bz2
 # Download source
-if [ ! -e "${BOOST_SOURCE_NAME}.tar.gz" ]
+if [ ! -e "${BOOST_SOURCE_NAME}.tar.bz2" ]
 then
-  curl $PROXY -O "http://surfnet.dl.sourceforge.net/project/boost/boost/${BOOST_VERSION}/${BOOST_SOURCE_NAME}.tar.gz"
+  echo "Can't find ${BOOST_SOURCE_NAME}.tar.bz2"
+  curl $PROXY -O "http://surfnet.dl.sourceforge.net/project/boost/boost/${BOOST_VERSION}/${BOOST_SOURCE_NAME}.tar.bz2"
 fi
 
 # Extract source
 rm -rf "${BOOST_SOURCE_NAME}"
-tar xvf "${BOOST_SOURCE_NAME}.tar.gz"
+tar xjf "${BOOST_SOURCE_NAME}.tar.bz2"
 
 pushd "${BOOST_SOURCE_NAME}"
-tar xvf "${TOPDIR}/build-droid/droid-boost-patch.tar.gz"
+tar xzf "${TOPDIR}/build-droid/droid-boost-patch.tar.gz"
 
 # Build
 
@@ -55,6 +59,7 @@ tar xvf "${TOPDIR}/build-droid/droid-boost-patch.tar.gz"
 # ---------
 
 # Make the initial bootstrap
+echo "Boostrap"
 BOOST_LIBS_COMMA=$(echo $BOOST_LIBS | sed -e "s/ /,/g")
 echo "Bootstrapping (with libs $BOOST_LIBS_COMMA)"
 ./bootstrap.sh --with-libraries=$BOOST_LIBS_COMMA
@@ -191,9 +196,9 @@ EOF
 
 if [ "${PLATFORM}" == "arm-linux-androideabi" ]
 then
-	./b2 link=static threading=multi --layout=unversioned target-os=linux toolset=android-arm install
+	./b2 link=static threading=multi --layout=unversioned target-os=linux toolset=android-arm -j8 install
 else
-	./b2 link=static threading=multi --layout=unversioned target-os=linux toolset=android-i686 install
+	./b2 link=static threading=multi --layout=unversioned target-os=linux toolset=android-i686 -j8 install
 fi
 
 # Combine boost libraries into one static archive
