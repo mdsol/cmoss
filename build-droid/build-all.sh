@@ -98,7 +98,8 @@ fi
 
 # Platforms to build for (changing this may break the build)
 #PLATFORMS="arm-linux-androideabi"
-PLATFORMS="x86"
+#PLATFORMS="x86"
+PLATFORMS="arm-linux-androideabi x86"
 
 # Create tool chains for each supported platform
 for PLATFORM in ${PLATFORMS}
@@ -210,7 +211,6 @@ do
 	mkdir -p ${BINDIR}/include
 	cp -r ${TMPDIR}/build/droid/${PLATFORM}/include ${BINDIR}/
 
-	#mkdir -p ${BINDIR}/lib/x86
 	mkdir -p ${BINDIR}/lib/${TARGET}
 
 	#cp ${TMPDIR}/build/droid/i686-android-linux/lib/*.a ${BINDIR}/lib/x86
