@@ -11,11 +11,11 @@ fi
 
 export SDK="${NDK}"
 
-if [ -z $3 ]
+if [ -z $2 ]
 then
 	export PROXY=""
 else
-	export PROXY="-x $3"
+	export PROXY="-x $2"
 fi
 
 # Project version to use to build minizip (changing this may break the build)
