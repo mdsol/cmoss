@@ -89,7 +89,7 @@ mkdir -p $TMPDIR
 pushd $TMPDIR
 
 export ANDROID_API_LEVEL="14"
-export ARM_TARGET="armv7"
+export ARM_TARGET="arm"
 
 if [ -z $TOOLCHAIN_VERSION ]
 then
@@ -128,7 +128,7 @@ do
 	TOOLPREFIX=${PLATFORM}
 	if [ "${PLATFORM}" == "arm-linux-androideabi" ]
 	then
-                TARGET="armv7"
+                TARGET="arm"
 	else
                 TARGET="x86"
                 TOOLPREFIX="i686-linux-android"
