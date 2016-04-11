@@ -37,17 +37,19 @@ pwd
 echo "Building Boost @ $?"
 BOOST_SOURCE_NAME=boost_${BOOST_VERSION//./_}
 
-echo ${BOOST_SOURCE_NAME}.tar.bz2
+echo ${BOOST_SOURCE_NAME}.tar.gz
 # Download source
-if [ ! -e "${BOOST_SOURCE_NAME}.tar.bz2" ]
+if [ ! -e "${BOOST_SOURCE_NAME}.tar.gz" ]
 then
-  echo "Can't find ${BOOST_SOURCE_NAME}.tar.bz2"
-  curl $PROXY -O "http://surfnet.dl.sourceforge.net/project/boost/boost/${BOOST_VERSION}/${BOOST_SOURCE_NAME}.tar.bz2"
+  echo "Can't find ${BOOST_SOURCE_NAME}.tar.gz"
+  echo "Download it and re-run."
+  # Sourceforge URL no longer works with curl, keeping it here for reference
+  # curl $PROXY -O "http://surfnet.dl.sourceforge.net/project/boost/boost/${BOOST_VERSION}/${BOOST_SOURCE_NAME}.tar.gz"
 fi
 
 # Extract source
 rm -rf "${BOOST_SOURCE_NAME}"
-tar xjf "${BOOST_SOURCE_NAME}.tar.bz2"
+tar xjf "${BOOST_SOURCE_NAME}.tar.gz"
 
 pushd "${BOOST_SOURCE_NAME}"
 tar xzf "${TOPDIR}/build-droid/droid-boost-patch.tar.gz"
@@ -166,14 +168,14 @@ using android : arm : ${DROIDTOOLS}-g++ :
 <compileflags>-DNDEBUG
 <compileflags>-I${SDK}/platforms/android-14/arch-arm/usr/include
 <compileflags>-I${SDK}/sources/cxx-stl/gnu-libstdc++/${TOOLCHAIN_VERSION}/include
-<compileflags>-I${SDK}/sources/cxx-stl/gnu-libstdc++/${TOOLCHAIN_VERSION}/libs/armeabi-v7a/include
+<compileflags>-I${SDK}/sources/cxx-stl/gnu-libstdc++/${TOOLCHAIN_VERSION}/libs/armeabi/include
 <compileflags>-I${TMPDIR}/${BOOST_SOURCE_NAME}
 <compileflags>-I${ROOTDIR}/include
 <linkflags>-nostdlib
 <linkflags>-lc
 <linkflags>-Wl,-rpath-link=${SYSROOT}/usr/lib
 <linkflags>-L${SYSROOT}/usr/lib
-<linkflags>-L${SDK}/sources/cxx-stl/gnu-libstdc++/${TOOLCHAIN_VERSION}/libs/armeabi-v7a
+<linkflags>-L${SDK}/sources/cxx-stl/gnu-libstdc++/${TOOLCHAIN_VERSION}/libs/armeabi
 <linkflags>-L${ROOTDIR}/lib
 # Flags above are for android
 <architecture>arm
